@@ -79,7 +79,16 @@ class Program
 
                     Console.Write("Food Type (Hot/Cold): ");
                     string drinkType = Console.ReadLine();
-                    if (Enum.TryParse(drinkType, out DrinkType type))
+                    DrinkType type;
+                    if (drinkType == "Hot")
+                    {
+                        type = DrinkType.Hot;
+                    }
+                    else if (drinkType == "Cold")
+                    {
+                        type = DrinkType.Cold;
+                    }
+                    else
                     {
                         Console.WriteLine(Constants.Invalid + " temperature format.");
                         break;
@@ -131,6 +140,7 @@ class Program
                     newFoodName = Console.ReadLine();
                     if (string.IsNullOrWhiteSpace(newFoodName))
                         newFoodName = oldFood.Name;
+                  
 
                     Console.Write("Enter new Price(dont write any thing if you dont want update): ");
                     string newPriceString = Console.ReadLine();
@@ -140,6 +150,7 @@ class Program
 
                     foodService.Update(new UpdatedFoodDto
                     {
+                        Id = foodIdToUpdate,
                         Name = newFoodName,
                         Price = newPrice
                     });
@@ -180,6 +191,7 @@ class Program
 
                         drinkService.Update(new UpdatedDrinkDto
                         {
+                            Id = drinkIdToUpdateName,
                             Name = newDrinkName,
                             Price = newDrinkPrice,
                             Type = newDrinkType

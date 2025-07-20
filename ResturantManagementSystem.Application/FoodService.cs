@@ -26,7 +26,7 @@ namespace ResturantManagementSystem.Application
         public void Update(UpdatedFoodDto updatedFood)
         {
             var food = foods.FirstOrDefault(f => f.Id == updatedFood.Id && f.IsDeleted != true);
-            if (food == null)
+            if (food is null)
             {
                 System.Console.WriteLine("this food dose not exist");
                 return;

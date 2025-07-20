@@ -61,7 +61,7 @@ namespace ResturantManagementSystem.Application
             if (createDrinkDto.Price < 0)
                 throw new ArgumentException("Price must be positive");
 
-            if (createDrinkDto.Type.ToString() != "Hot" || createDrinkDto.Type.ToString() != "Cold")
+            if (createDrinkDto.Type.ToString() != "Hot" && createDrinkDto.Type.ToString() != "Cold")
                 throw new ArgumentException("Invalid type");
             return true;
         }
