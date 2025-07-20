@@ -13,9 +13,40 @@ namespace ResturantManagementSystem.Application
         {
             foods = FoodRepository.LoadData().ToList();
         }
-        public void AddFood(FoodDto foodDto)
+        public void AddFood(CreateFoodDto foodDto)
         {
-            foods.Add(new Food(foodDto.Name, foodDto.Price));
+            if (foodDto is null)
+                throw new ArgumentNullException(nameof(foodDto));
+            if (FoodDtoValidation(foodDto))
+            {
+                foods.Add(new Food(foodDto.Name, foodDto.Price));
+            }
+        }
+
+        public void Update(UpdatedFoodDto updatedFood)
+        {
+            var food = foods.FirstOrDefault(f => f.Id == updatedFood.Id && f.IsDeleted != true);
+            if (food == null)
+            {
+                System.Console.WriteLine("this food dose not exist");
+                return;
+            }
+            if (FoodDtoValidation(updatedFood))
+            {
+                food.SetName(updatedFood.Name);
+                food.SetPrice(updatedFood.Price);
+            }
+           
+        }
+
+        public bool FoodDtoValidation(CreateFoodDto createfoodDto)
+        {
+            if (createfoodDto.Name is null || createfoodDto.Name.Length == 0)
+                throw new ArgumentException("Name shouldn't be null or negative");
+
+            if (createfoodDto.Price < 0)
+                throw new ArgumentException("Price must be positive");
+            return true;
         }
 
         public void DeleteFood(int foodId)
@@ -30,7 +61,6 @@ namespace ResturantManagementSystem.Application
 
             
         }
-
         public IEnumerable<FoodDto> GetAll()
         {
             return foods
@@ -61,26 +91,6 @@ namespace ResturantManagementSystem.Application
                 .Select(f => new FoodDto(f.Id, f.Name, f.Price));
         }
 
-        public void UpdateName(int foodId, string newName)
-        {
-            var food = foods.FirstOrDefault(f => f.Id == foodId && f.IsDeleted != true);
-            if (food == null)
-            {
-                System.Console.WriteLine("this food dose not exist");
-                return;
-            }
-            food.SetName(newName);
-        }
-
-        public void UpdatePrice(int foodId, decimal newPrice)
-        {
-            var food = foods.FirstOrDefault(f => f.Id == foodId && f.IsDeleted != true);
-            if (food == null)
-            {
-                System.Console.WriteLine("this food dose not exist");
-                return;
-            }
-            food.SetPrice(newPrice);
-        }
+        
     }
 }

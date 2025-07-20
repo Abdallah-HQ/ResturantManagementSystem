@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ResturantManagementSystem.Domain
+﻿namespace ResturantManagementSystem.Domain
 {
     public abstract class Item
     {
@@ -18,8 +12,8 @@ namespace ResturantManagementSystem.Domain
         {
             this.Name = name;
             this.Price = price;
-            this.CreatedAt = DateTime.Now;
             this.IsDeleted = false;
+            this.CreatedAt = DateTime.Now;
         }
 
         public void SetName(string name)

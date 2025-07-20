@@ -11,14 +11,13 @@ namespace ResturantManagementSystem.Contract.Interfaces
         IEnumerable<FoodDto> GetAll();
 
         // Add new Food
-        void AddFood(FoodDto foodDto);
+        void AddFood(CreateFoodDto foodDto);
 
         // Delete existing food
         void DeleteFood(int id);
 
         // Update existing food
-        void UpdateName(int foodId, string newName);
-        void UpdatePrice(int foodId, decimal newPrice);
+        void Update(UpdatedFoodDto updatedfood);
 
     }
 }

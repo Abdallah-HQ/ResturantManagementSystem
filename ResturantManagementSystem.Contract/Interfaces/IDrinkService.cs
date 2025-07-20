@@ -10,14 +10,13 @@ namespace ResturantManagementSystem.Contract.Interfaces
         IEnumerable<DrinkDto> GetAll();
 
         // Add new Drink
-        void AddDrink(DrinkDto drink);
+        void AddDrink(CreateDrinkDto drink);//CreateDrinkDto
 
         //Delete existing drink
         void DeleteDrink(int id);
 
         // Update existing drink
-        void UpdateName(int drinkId, string newName);
-        void UpdatePrice(int drinkId, decimal newPrice);
-        void UpdateTemperature(int drinkId, bool newTemperature);
+        void Update(UpdatedDrinkDto updatedDrink);
+        
     }
 }

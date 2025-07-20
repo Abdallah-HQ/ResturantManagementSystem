@@ -9,16 +9,16 @@ namespace ResturantManagementSystem.Domain
     public sealed class Drink : Item
     {
         private static int _autoDrinksIds = 0;
-        public bool IsHot { get; private set; }  // Hot Drink / Cold Drink
-        public Drink(string name, decimal price, bool isHot) : base(name, price)
+        public DrinkType Type { get; private set; }
+        public Drink(string name, decimal price, DrinkType type) : base(name, price)
         {
             this.Id = ++_autoDrinksIds;
-            this.IsHot = isHot;
+            this.Type = type;
         }
 
-        public void SetIsHot(bool isHot)
+        public void SetType(DrinkType type)
         {
-            this.IsHot = isHot;
+            this.Type = type;
         }
 
     }

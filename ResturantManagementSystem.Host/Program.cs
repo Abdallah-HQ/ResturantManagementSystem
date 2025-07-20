@@ -1,5 +1,6 @@
 ﻿using ResturantManagementSystem.Application;
 using ResturantManagementSystem.Contract.DTOs;
+using ResturantManagementSystem.Domain;
 
 class Program
 {
@@ -19,11 +20,8 @@ class Program
             Console.WriteLine("6. Delete drink by ID");
             Console.WriteLine("7. Update food name");
             Console.WriteLine("8. Update drink name");
-            Console.WriteLine("9. Update food price");
-            Console.WriteLine("10. Update drink price");
-            Console.WriteLine("11. Update drink temperature");
-            Console.WriteLine("12. Get food by name");
-            Console.WriteLine("13. Get drink by name");
+            Console.WriteLine("9. Get food by name");
+            Console.WriteLine("10. Get drink by name");
             Console.WriteLine("0. Exit");
             Console.Write("Select an option: ");
 
@@ -45,18 +43,21 @@ class Program
                     string foodName = Console.ReadLine();
                     if (string.IsNullOrWhiteSpace(foodName))
                     {
-                        Console.WriteLine("Invalid name.");
+                        Console.WriteLine(Constants.Invalid + " name.");
                         break;
                     }
 
                     Console.Write("Food price: ");
                     if (!decimal.TryParse(Console.ReadLine(), out decimal foodPrice) || foodPrice < 0)
                     {
-                        Console.WriteLine("Invalid price.");
+                        Console.WriteLine(Constants.Invalid + " price.");
                         break;
                     }
 
-                    foodService.AddFood(new FoodDto(0, foodName, foodPrice));
+                    foodService.AddFood(new CreateFoodDto {
+                        Name = foodName,
+                        Price = foodPrice
+                    });
                     Console.WriteLine("Food added successfully.");
                     break;
 
@@ -65,26 +66,31 @@ class Program
                     string drinkName = Console.ReadLine();
                     if (string.IsNullOrWhiteSpace(drinkName))
                     {
-                        Console.WriteLine("Invalid name.");
+                        Console.WriteLine(Constants.Invalid + " name.");
                         break;
                     }
 
                     Console.Write("Drink price: ");
                     if (!decimal.TryParse(Console.ReadLine(), out decimal drinkPrice) || drinkPrice < 0)
                     {
-                        Console.WriteLine("Invalid price.");
+                        Console.WriteLine(Constants.Invalid + " price.");
                         break;
                     }
 
-                    Console.Write("Is hot (true/false): ");
-                    string tempInput = Console.ReadLine();
-                    if (!bool.TryParse(tempInput, out bool isHot))
+                    Console.Write("Food Type (Hot/Cold): ");
+                    string drinkType = Console.ReadLine();
+                    if (Enum.TryParse(drinkType, out DrinkType type))
                     {
-                        Console.WriteLine("Invalid temperature format.");
+                        Console.WriteLine(Constants.Invalid + " temperature format.");
                         break;
                     }
 
-                    drinkService.AddDrink(new DrinkDto(0, drinkName, drinkPrice, isHot));
+                    drinkService.AddDrink(new CreateDrinkDto
+                    {
+                        Name = drinkName,
+                        Price = drinkPrice,
+                        Type = type
+                    });
                     Console.WriteLine("Drink added successfully.");
                     break;
 
@@ -92,7 +98,7 @@ class Program
                     Console.Write("Food ID to delete: ");
                     if (!int.TryParse(Console.ReadLine(), out int foodIdToDelete))
                     {
-                        Console.WriteLine("Invalid ID.");
+                        Console.WriteLine(Constants.Invalid + " ID.");
                         break;
                     }
 
@@ -103,7 +109,7 @@ class Program
                     Console.Write("Drink ID to delete: ");
                     if (!int.TryParse(Console.ReadLine(), out int drinkIdToDelete))
                     {
-                        Console.WriteLine("Invalid ID.");
+                        Console.WriteLine(Constants.Invalid + " ID.");
                         break;
                     }
 
@@ -111,106 +117,83 @@ class Program
                     break;
 
                 case "7":
-                    Console.Write("Food ID to update name: ");
-                    if (!int.TryParse(Console.ReadLine(), out int foodIdToUpdateName))
+                    Console.Write("Food ID to update : ");
+                    if (!int.TryParse(Console.ReadLine(), out int foodIdToUpdate))
                     {
-                        Console.WriteLine("Invalid ID.");
+                        Console.WriteLine(Constants.Invalid + " ID.");
                         break;
                     }
 
-                    Console.Write("New name: ");
-                    string newFoodName = Console.ReadLine();
+                    FoodDto oldFood = foodService.GetById(foodIdToUpdate);
+
+                    Console.Write("New name (dont write any thing if you dont want update): ");
+                    string newFoodName = null;
+                    newFoodName = Console.ReadLine();
                     if (string.IsNullOrWhiteSpace(newFoodName))
-                    {
-                        Console.WriteLine("Invalid name.");
-                        break;
-                    }
+                        newFoodName = oldFood.Name;
 
-                    foodService.UpdateName(foodIdToUpdateName, newFoodName);
+                    Console.Write("Enter new Price(dont write any thing if you dont want update): ");
+                    string newPriceString = Console.ReadLine();
+                    decimal newPrice;
+                    if (!decimal.TryParse(newPriceString, out newPrice) || string.IsNullOrEmpty(newPriceString))
+                       newPrice = oldFood.Price;
+
+                    foodService.Update(new UpdatedFoodDto
+                    {
+                        Name = newFoodName,
+                        Price = newPrice
+                    });
                     break;
 
                 case "8":
-                    Console.Write("Drink ID to update name: ");
+                    Console.Write("Drink ID to update name(dont write any thing if you dont want update): ");
                     if (!int.TryParse(Console.ReadLine(), out int drinkIdToUpdateName))
                     {
-                        Console.WriteLine("Invalid ID.");
+                        Console.WriteLine(Constants.Invalid + " ID.");
                         break;
                     }
 
-                    Console.Write("New name: ");
+                    DrinkDto oldDrink = drinkService.GetById(drinkIdToUpdateName);
+
+                    Console.Write("New name(dont write any thing if you dont want update): ");
                     string newDrinkName = Console.ReadLine();
                     if (string.IsNullOrWhiteSpace(newDrinkName))
                     {
-                        Console.WriteLine("Invalid name.");
-                        break;
+                        newDrinkName = oldDrink.Name;
                     }
 
-                    drinkService.UpdateName(drinkIdToUpdateName, newDrinkName);
+                    Console.Write("Enter new Price(dont write any thing if you dont want update): ");
+                    string newDrinkPriceString = Console.ReadLine();
+                    decimal newDrinkPrice;
+                    if (!decimal.TryParse(newDrinkPriceString, out newDrinkPrice) || string.IsNullOrEmpty(newDrinkPriceString))
+                        newPrice = oldDrink.Price;
+                    else
+                        newPrice = newDrinkPrice;
+
+                    Console.Write("Enter new Type(dont write any thing if you dont want update): ");
+                    string newDrinkTypeString = Console.ReadLine();
+                    DrinkType newDrinkType;
+                    if (string.IsNullOrWhiteSpace(newDrinkTypeString))
+                        newDrinkType = oldDrink.Type;
+                    else
+                        newDrinkType = (DrinkType)Enum.Parse(typeof(DrinkType), newDrinkTypeString);
+
+                        drinkService.Update(new UpdatedDrinkDto
+                        {
+                            Name = newDrinkName,
+                            Price = newDrinkPrice,
+                            Type = newDrinkType
+                        });
                     break;
 
                 case "9":
-                    Console.Write("Food ID to update price: ");
-                    if (!int.TryParse(Console.ReadLine(), out int foodIdToUpdatePrice))
-                    {
-                        Console.WriteLine("Invalid ID.");
-                        break;
-                    }
-
-                    Console.Write("New price: ");
-                    if (!decimal.TryParse(Console.ReadLine(), out decimal newFoodPrice) || newFoodPrice < 0)
-                    {
-                        Console.WriteLine("Invalid price.");
-                        break;
-                    }
-
-                    foodService.UpdatePrice(foodIdToUpdatePrice, newFoodPrice);
-                    break;
-
-                case "10":
-                    Console.Write("Drink ID to update price: ");
-                    if (!int.TryParse(Console.ReadLine(), out int drinkIdToUpdatePrice))
-                    {
-                        Console.WriteLine("Invalid ID.");
-                        break;
-                    }
-
-                    Console.Write("New price: ");
-                    if (!decimal.TryParse(Console.ReadLine(), out decimal newDrinkPrice) || newDrinkPrice < 0)
-                    {
-                        Console.WriteLine("Invalid price.");
-                        break;
-                    }
-
-                    drinkService.UpdatePrice(drinkIdToUpdatePrice, newDrinkPrice);
-                    break;
-
-                case "11":
-                    Console.Write("Drink ID to update temperature: ");
-                    if (!int.TryParse(Console.ReadLine(), out int drinkIdTemp))
-                    {
-                        Console.WriteLine("Invalid ID.");
-                        break;
-                    }
-
-                    Console.Write("Is hot (true/false): ");
-                    string tempStatusInput = Console.ReadLine();
-                    if (!bool.TryParse(tempStatusInput, out bool tempStatus))
-                    {
-                        Console.WriteLine("Invalid format.");
-                        break;
-                    }
-
-                    drinkService.UpdateTemperature(drinkIdTemp, tempStatus);
-                    break;
-
-                case "12":
                     Console.Write("Search food by name: ");
                     string foodSearchName = Console.ReadLine();
                     foreach (var food in foodService.GetByName(foodSearchName))
                         Console.WriteLine(food);
                     break;
 
-                case "13":
+                case "10":
                     Console.Write("Search drink by name: ");
                     string drinkSearchName = Console.ReadLine();
                     foreach (var drink in drinkService.GetByName(drinkSearchName))
@@ -222,9 +205,13 @@ class Program
                     return;
 
                 default:
-                    Console.WriteLine("Invalid option. Try again.");
+                    Console.WriteLine(Constants.Invalid);
                     break;
             }
         }
     }
+}
+public static class Constants
+{
+    public const string Invalid = "Invalid";
 }
