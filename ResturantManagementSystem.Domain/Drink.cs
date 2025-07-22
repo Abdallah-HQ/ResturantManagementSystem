@@ -13,11 +13,14 @@ namespace ResturantManagementSystem.Domain
         public Drink(string name, decimal price, DrinkType type) : base(name, price)
         {
             this.Id = ++_autoDrinksIds;
-            this.Type = type;
+            SetType(type);
         }
 
         public void SetType(DrinkType type)
         {
+            if (Enum.IsDefined(typeof(DrinkType), type))
+                throw new ArgumentException("Invalid drink type");
+            
             this.Type = type;
         }
 

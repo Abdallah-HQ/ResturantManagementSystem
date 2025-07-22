@@ -1,57 +1,43 @@
-﻿namespace ResturantManagementSystem.Domain
+﻿public abstract class Item
 {
-    public abstract class Item
+    public int Id { get; protected set; }
+    public string Name { get; private set; }
+    public decimal Price { get; private set; }
+    public DateTime CreatedAt { get; private set; }
+    public bool IsDeleted { get; private set; }
+
+    protected Item(string name, decimal price)
     {
-        public int Id { get; protected set; }
-        public string Name { get; private set; }
-        public decimal Price { get; private set; }
-        public DateTime CreatedAt { get; private set; }
-        public bool IsDeleted { get; private set; }
+        SetName(name);
+        SetPrice(price);
+        CreatedAt = DateTime.UtcNow;
+        IsDeleted = false;
+    }
 
-        public Item(string name, decimal price)
-        {
-            this.Name = name;
-            this.Price = price;
-            this.IsDeleted = false;
-            this.CreatedAt = DateTime.Now;
-        }
+    public void SetName(string name)
+    {
+        if (string.IsNullOrWhiteSpace(name))
+            throw new ArgumentException("Name cannot be empty.");
 
-        public void SetName(string name)
-        {
-            if (string.IsNullOrEmpty(name))
-            {
-                Console.WriteLine("Food name can't be empty");
-                return;
+        if (name.Length > 150)
+            throw new ArgumentException("Name too long.");
 
-            }
-            if (name.Length > 150)
-            {
-                Console.WriteLine("Food name is too long");
-                return;
-            }
-            this.Name = name;
-        }
+        Name = name;
+    }
 
-        public void SetPrice(decimal price)
-        {
-            if (price < 0)
-            {
-                Console.WriteLine("Food price can't be negative");
-                return;
-            }
-            this.Price = price;
-        }
+    public void SetPrice(decimal price)
+    {
+        if (price < 0)
+            throw new ArgumentException("Price cannot be negative.");
 
-        public void Delete()
-        {
-            if (this.IsDeleted == true)
-            {
-                Console.WriteLine("Food is deleted already");
-                return;
-            }
-            this.IsDeleted = true;
-        }
+        Price = price;
+    }
 
-        
+    public void Delete()
+    {
+        if (IsDeleted)
+            throw new InvalidOperationException("Item is already deleted.");
+
+        IsDeleted = true;
     }
 }

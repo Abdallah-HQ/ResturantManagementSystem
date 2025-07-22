@@ -1,4 +1,5 @@
 ﻿using ResturantManagementSystem.Contract.DTOs;
+using ResturantManagementSystem.Contract.Results;
 
 namespace ResturantManagementSystem.Contract.Interfaces
 {
@@ -10,13 +11,13 @@ namespace ResturantManagementSystem.Contract.Interfaces
         IEnumerable<DrinkDto> GetAll();
 
         // Add new Drink
-        void AddDrink(CreateDrinkDto drink);//CreateDrinkDto
+        OperationResult AddDrink(CreateDrinkDto drink);//CreateDrinkDto
 
         //Delete existing drink
-        void DeleteDrink(int id);
+        OperationResult DeleteDrink(int id);
 
         // Update existing drink
-        void Update(UpdatedDrinkDto updatedDrink);
+        OperationResult Update(UpdatedDrinkDto updatedDrink);
         
     }
 }

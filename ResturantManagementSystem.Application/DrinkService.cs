@@ -1,5 +1,6 @@
 ﻿using ResturantManagementSystem.Contract.DTOs;
 using ResturantManagementSystem.Contract.Interfaces;
+using ResturantManagementSystem.Contract.Results;
 using ResturantManagementSystem.Domain;
 using ResturantManagementSystem.Infrastructure.Data;
 using System.Linq;
@@ -14,43 +15,43 @@ namespace ResturantManagementSystem.Application
             drinks = DrinkRepository.LoadData().ToList();
         }
 
-        public void AddDrink(CreateDrinkDto drink)
+        public OperationResult AddDrink(CreateDrinkDto drink)
         {
             if (drink == null)
-                throw new ArgumentNullException(nameof(drink));
+                return OperationResult.Fail("Drink data is null");
 
             if (DrinkDtoValidation(drink)) 
             {
                 drinks.Add(new Drink(drink.Name, drink.Price, drink.Type));
+                return OperationResult.SuccessResult(" Drink added successfully");
             }
+            return OperationResult.Fail("Validation Faild");
         }
 
-        public void DeleteDrink(int drinkId)
+        public OperationResult DeleteDrink(int drinkId)
         {
             var drink = drinks.FirstOrDefault(d => d.Id == drinkId && d.IsDeleted != true);
             if (drink == null)
-            {
-                Console.WriteLine("this drink dose not exist");
-                return;
-            }
+                return OperationResult.Fail("Drink not found"); 
             drink.Delete();
+            return OperationResult.SuccessResult("Drink deleted successfully");
         }
 
-        public void Update(UpdatedDrinkDto updatedDrink)
+        public OperationResult Update(UpdatedDrinkDto updatedDrink)
         {
             var drink = drinks.FirstOrDefault(d => d.Id == updatedDrink.Id && d.IsDeleted != true);
             if (drink == null)
-            {
-                Console.WriteLine("this drink dose not exist");
-                return;
-            }
+                return OperationResult.Fail("Drink not found.");
 
             if (DrinkDtoValidation(updatedDrink))
             {
                 drink.SetName(updatedDrink.Name);
                 drink.SetPrice(updatedDrink.Price);
                 drink.SetType(updatedDrink.Type);
+                return OperationResult.SuccessResult("Drink Updated successfully");
             }
+            return OperationResult.Fail("Validation Faild");
+
         }
 
         public bool DrinkDtoValidation(CreateDrinkDto createDrinkDto)
@@ -89,6 +90,14 @@ namespace ResturantManagementSystem.Application
             return drinks
                 .Where(d => d.IsDeleted != true && d.Name.Contains(name, StringComparison.OrdinalIgnoreCase))
                 .Select(d => new DrinkDto(d.Id, d.Name, d.Price, d.Type));
+        }
+
+        public void PrintAllDrinks()
+        {
+            foreach (var drink in GetAll())
+            {
+                Console.WriteLine(drink.ToString());
+            }
         }
     }
 }

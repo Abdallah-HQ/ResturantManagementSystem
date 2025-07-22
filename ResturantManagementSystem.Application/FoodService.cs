@@ -1,5 +1,6 @@
 ﻿using ResturantManagementSystem.Contract.DTOs;
 using ResturantManagementSystem.Contract.Interfaces;
+using ResturantManagementSystem.Contract.Results;
 using ResturantManagementSystem.Domain;
 using ResturantManagementSystem.Infrastructure.Data;
 
@@ -13,30 +14,34 @@ namespace ResturantManagementSystem.Application
         {
             foods = FoodRepository.LoadData().ToList();
         }
-        public void AddFood(CreateFoodDto foodDto)
+        public OperationResult AddFood(CreateFoodDto foodDto)
         {
             if (foodDto is null)
-                throw new ArgumentNullException(nameof(foodDto));
+                OperationResult.Fail("Food data is null");
+            
             if (FoodDtoValidation(foodDto))
             {
                 foods.Add(new Food(foodDto.Name, foodDto.Price));
+                OperationResult.SuccessResult("Food added successfully");
             }
+
+            return OperationResult.Fail("Validation faild");
         }
 
-        public void Update(UpdatedFoodDto updatedFood)
+        public OperationResult Update(UpdatedFoodDto updatedFood)
         {
             var food = foods.FirstOrDefault(f => f.Id == updatedFood.Id && f.IsDeleted != true);
             if (food is null)
-            {
-                System.Console.WriteLine("this food dose not exist");
-                return;
-            }
+                OperationResult.Fail("Food not found");
             if (FoodDtoValidation(updatedFood))
             {
                 food.SetName(updatedFood.Name);
                 food.SetPrice(updatedFood.Price);
+                OperationResult.SuccessResult("Food updated successfully");
             }
-           
+            return OperationResult.Fail("Validation faild");
+
+
         }
 
         public bool FoodDtoValidation(CreateFoodDto createfoodDto)
@@ -49,17 +54,14 @@ namespace ResturantManagementSystem.Application
             return true;
         }
 
-        public void DeleteFood(int foodId)
+        public OperationResult DeleteFood(int foodId)
         {
             var food = foods.FirstOrDefault(f => f.Id == foodId && f.IsDeleted != true);
             if (food == null)
-            {
-                Console.WriteLine("this food dose not exist");
-                return;
-            }
+                return OperationResult.Fail("Food not found");
             food.Delete();
 
-            
+            return OperationResult.SuccessResult("Food deleted successfully");
         }
         public IEnumerable<FoodDto> GetAll()
         {
