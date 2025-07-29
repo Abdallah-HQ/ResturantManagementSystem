@@ -1,5 +1,4 @@
-﻿
-using ResturantManagementSystem.Domain;
+﻿using ResturantManagementSystem.Domain.Entities;
 
 namespace ResturantManagementSystem.Contract.DTOs
 {

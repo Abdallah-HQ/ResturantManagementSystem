@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36221.1 d17.14
+VisualStudioVersion = 17.14.36221.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResturantManagementSystem.Domain", "ResturantManagementSystem.Domain\ResturantManagementSystem.Domain.csproj", "{D40BFCB7-C4F2-41A4-88AF-8FA46712DFA1}"
 EndProject
@@ -12,6 +12,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResturantManagementSystem.Infrastructure", "ResturantManagementSystem.Infrastructure\ResturantManagementSystem.Infrastructure.csproj", "{4B8932DD-6269-412F-A8EC-FBE1620EA0A7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResturantManagementSystem.Host", "ResturantManagementSystem.Host\ResturantManagementSystem.Host.csproj", "{BD3CA4D3-42DF-432F-A116-F196A4116418}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResturantManagementSystem.Domain.Shared", "ResturantManagementSystem.Domain.Shared\ResturantManagementSystem.Domain.Shared.csproj", "{1D3E684F-DA99-46BC-8C04-410DD5686402}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{BD3CA4D3-42DF-432F-A116-F196A4116418}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BD3CA4D3-42DF-432F-A116-F196A4116418}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BD3CA4D3-42DF-432F-A116-F196A4116418}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D3E684F-DA99-46BC-8C04-410DD5686402}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D3E684F-DA99-46BC-8C04-410DD5686402}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D3E684F-DA99-46BC-8C04-410DD5686402}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D3E684F-DA99-46BC-8C04-410DD5686402}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

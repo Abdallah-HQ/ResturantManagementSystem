@@ -1,4 +1,4 @@
-﻿namespace ResturantManagementSystem.Domain
+﻿namespace ResturantManagementSystem.Domain.Entities
 {
     public enum DrinkType
     {

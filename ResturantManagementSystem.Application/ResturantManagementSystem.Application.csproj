@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ResturantManagementSystem.Contract\ResturantManagementSystem.Contract.csproj" />
+    <ProjectReference Include="..\ResturantManagementSystem.Domain.Shared\ResturantManagementSystem.Domain.Shared.csproj" />
     <ProjectReference Include="..\ResturantManagementSystem.Domain\ResturantManagementSystem.Domain.csproj" />
     <ProjectReference Include="..\ResturantManagementSystem.Infrastructure\ResturantManagementSystem.Infrastructure.csproj" />
   </ItemGroup>

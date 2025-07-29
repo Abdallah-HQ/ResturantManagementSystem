@@ -1,12 +1,12 @@
-﻿using System;
-
-
+﻿
 namespace ResturantManagementSystem.Contract.DTOs
 {
     public class FoodDto
     {
         public int Id { get; set; }
+        
         public string Name { get; set; }
+        
         public decimal Price { get; set; }
 
         public FoodDto(int id, string name, decimal price)
