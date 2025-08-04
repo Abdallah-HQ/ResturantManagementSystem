@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResturantManagementSystem.H
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResturantManagementSystem.Domain.Shared", "ResturantManagementSystem.Domain.Shared\ResturantManagementSystem.Domain.Shared.csproj", "{1D3E684F-DA99-46BC-8C04-410DD5686402}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResturantManagementSystem.APIS", "ResturantManagementSystem.APIS\ResturantManagementSystem.APIS.csproj", "{D417A7B6-6605-4655-904C-93E3A5840D80}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{1D3E684F-DA99-46BC-8C04-410DD5686402}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1D3E684F-DA99-46BC-8C04-410DD5686402}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1D3E684F-DA99-46BC-8C04-410DD5686402}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D417A7B6-6605-4655-904C-93E3A5840D80}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D417A7B6-6605-4655-904C-93E3A5840D80}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D417A7B6-6605-4655-904C-93E3A5840D80}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D417A7B6-6605-4655-904C-93E3A5840D80}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

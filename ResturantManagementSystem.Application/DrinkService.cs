@@ -12,7 +12,7 @@ namespace ResturantManagementSystem.Application
         private readonly AppDbContext _context;
         public DrinkService()
         {
-           _context = new AppDbContext();
+            _context = new AppDbContext();
         }
 
         public OperationResult AddDrink(CreateDrinkDto drink)
@@ -22,7 +22,7 @@ namespace ResturantManagementSystem.Application
                 return OperationResult.Fail(DrinkConstants.DrinkDataIsNull);
             }
 
-            if (DrinkDtoValidation(drink)) 
+            if (DrinkDtoValidation(drink))
             {
                 _context.Drinks.Add(new Drink(drink.Name, drink.Price, drink.Type));
                 _context.SaveChanges();
@@ -34,7 +34,7 @@ namespace ResturantManagementSystem.Application
         public OperationResult DeleteDrink(int drinkId)
         {
             var drink = _context.Drinks.FirstOrDefault(d => d.Id == drinkId && d.IsDeleted != true);
-            
+
             if (drink is null)
             {
                 return OperationResult.Fail(DrinkConstants.DrinkNotFound);
@@ -48,7 +48,7 @@ namespace ResturantManagementSystem.Application
         public OperationResult Update(UpdatedDrinkDto updatedDrink)
         {
             var drink = _context.Drinks.FirstOrDefault(d => d.Id == updatedDrink.Id && d.IsDeleted != true);
-            
+
             if (drink is null)
             {
                 return OperationResult.Fail(DrinkConstants.DrinkNotFound);
